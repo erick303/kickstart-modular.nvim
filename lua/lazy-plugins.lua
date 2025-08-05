@@ -90,4 +90,7 @@ require('lazy').setup({
   },
 })
 
+-- Load custom snippets after plugins are loaded
+require 'custom.snippets'
+
 -- vim: ts=2 sts=2 sw=2 et

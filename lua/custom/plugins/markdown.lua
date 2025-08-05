@@ -9,6 +9,11 @@ return {
     ---@type render.md.UserConfig
     opts = {
       render_modes = { 'n', 'c', 't' },
+      anti_conceal = {
+        enabled = true,
+        above = 3,
+        below = 3,
+      },
     },
   },
   {

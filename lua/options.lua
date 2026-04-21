@@ -2,6 +2,11 @@
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+--
+--  Spelling
+vim.o.spelllang = 'en_gb'
+vim.o.spell = true
+vim.keymap.set('n', '<leader>ts', ':set spell!<CR>', { silent = true, desc = '[T]oggle [S]pell' })
 
 -- Make line numbers default
 vim.o.number = true

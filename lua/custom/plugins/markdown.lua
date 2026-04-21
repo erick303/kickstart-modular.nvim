@@ -11,8 +11,8 @@ return {
       render_modes = { 'n', 'c', 't' },
       anti_conceal = {
         enabled = true,
-        above = 3,
-        below = 3,
+        above = 1,
+        below = 1,
       },
     },
   },

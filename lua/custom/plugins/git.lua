@@ -8,10 +8,10 @@ return {
       'nvim-telescope/telescope.nvim', -- optional
     },
     keys = {
-      { '<leader>g', '<cmd>Neogit kind=floating<CR>', desc = 'Open [G]it status' },
+      { '<leader>g', '<cmd>Neogit<CR>', desc = 'Open [G]it status' },
     },
     opts = {
-      kind = 'floating',
+      kind = 'auto',
     },
   },
 }

@@ -8,6 +8,12 @@ vim.o.spelllang = 'en_gb'
 vim.o.spell = true
 vim.keymap.set('n', '<leader>ts', ':set spell!<CR>', { silent = true, desc = '[T]oggle [S]pell' })
 
+-- Folding
+vim.opt.foldenable = false -- don't fold everything by default
+-- use treesitter for folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.

@@ -27,7 +27,51 @@ return {
         ensure_installed = { 'delve' },
       }
 
-      dapui.setup()
+      vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
+      vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
+      local breakpoint_signs = {
+        DapBreakpoint = { '●', 'DapBreak' },
+        DapBreakpointCondition = { '◆', 'DapBreak' },
+        DapBreakpointRejected = { '●', 'DapBreak' },
+        DapLogPoint = { '◆', 'DapBreak' },
+        DapStopped = { '▶', 'DapStop' },
+      }
+      for name, sign in pairs(breakpoint_signs) do
+        vim.fn.sign_define(name, { text = sign[1], texthl = sign[2], numhl = sign[2] })
+      end
+
+      dapui.setup({
+        layouts = {
+          {
+            elements = {
+              { id = 'repl', size = 1.0 },
+            },
+            size = 10,
+            position = 'bottom',
+          },
+          {
+            elements = {
+              { id = 'scopes', size = 0.45 },
+              { id = 'watches', size = 0.30 },
+              { id = 'breakpoints', size = 0.13 },
+              { id = 'stacks', size = 0.12 },
+            },
+            size = 40,
+            position = 'right',
+          },
+        },
+      })
+      vim.api.nvim_create_autocmd({ 'FileType', 'BufWinEnter', 'WinEnter' }, {
+        callback = function(args)
+          if vim.bo[args.buf].filetype == 'dap-repl' then
+            for _, win in ipairs(vim.fn.win_findbuf(args.buf)) do
+              vim.wo[win].wrap = true
+              vim.wo[win].linebreak = true
+            end
+          end
+        end,
+      })
+
       dap.listeners.after.event_initialized['dapui_config'] = dapui.open
       dap.listeners.before.event_terminated['dapui_config'] = dapui.close
       dap.listeners.before.event_exited['dapui_config'] = dapui.close

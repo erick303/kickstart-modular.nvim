@@ -14,6 +14,10 @@ vim.opt.foldenable = false -- don't fold everything by default
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
+-- Tab display width
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+
 -- Make line numbers default
 vim.o.number = true
 -- You can also add relative line numbers, to help with jumping.

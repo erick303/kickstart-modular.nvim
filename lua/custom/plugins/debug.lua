@@ -17,6 +17,12 @@ return {
       { '<leader>B', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Debug: Conditional Breakpoint' },
       { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: Toggle UI' },
       { '<leader>dt', function() require('dap-go').debug_test() end, desc = 'Debug: Nearest Go Test' },
+      { '<leader>p', function()
+          local dap = require('dap')
+          local configs = require('dap.ext.vscode').getconfigs(vim.fn.getcwd() .. '/.vscode/launch.json')
+          vim.ui.select(configs, { prompt = 'Run:', format_item = function(c) return c.name end },
+            function(c) if c then dap.run(c) end end)
+        end, desc = 'Debug: Run launch.json config' },
     },
     config = function()
       local dap = require 'dap'

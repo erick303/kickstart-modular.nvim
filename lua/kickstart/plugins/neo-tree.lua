@@ -22,7 +22,14 @@ return {
       window = {
         mappings = {
           ['\\'] = 'close_window',
+          ['gx'] = 'system_open',
         },
+      },
+      commands = {
+        system_open = function(state)
+          local node = state.tree:get_node()
+          vim.fn.jobstart({ 'open', node.path }, { detach = true })
+        end,
       },
     },
   },

@@ -16,10 +16,9 @@ return {
         },
       }
 
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'tokyonight-night'
+      -- Apply the last-used colorscheme (persisted across restarts), or fall
+      -- back to tokyonight-storm. <leader>tc opens a live-preview picker.
+      require('custom.colorscheme').setup 'tokyonight-storm'
     end,
   },
 }

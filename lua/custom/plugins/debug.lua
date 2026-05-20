@@ -7,6 +7,7 @@ return {
       'williamboman/mason.nvim',
       'jay-babu/mason-nvim-dap.nvim',
       'leoluz/nvim-dap-go',
+      { 'Joakker/lua-json5', build = './install.sh' },
     },
     keys = {
       { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
@@ -27,6 +28,8 @@ return {
     config = function()
       local dap = require 'dap'
       local dapui = require 'dapui'
+
+      require('dap.ext.vscode').json_decode = require('json5').parse
 
       require('mason-nvim-dap').setup {
         automatic_installation = true,

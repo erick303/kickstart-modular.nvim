@@ -70,7 +70,38 @@ return {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
-        -- pickers = {}
+        pickers = {
+          find_files = {
+            find_command = {
+              'fd',
+              '--type',
+              'f',
+              '--color',
+              'never',
+              '--no-ignore',
+              '--exclude',
+              'node_modules',
+              '--exclude',
+              'target',
+              '--exclude',
+              '.git',
+              '--exclude',
+              'dist',
+              '--exclude',
+              'build',
+              '--exclude',
+              '.next',
+              '--exclude',
+              'vendor',
+            },
+          },
+          buffers = {
+            mappings = {
+              i = { ['<C-d>'] = 'delete_buffer' },
+              n = { ['dd'] = 'delete_buffer' },
+            },
+          },
+        },
         extensions = {
           ['ui-select'] = { require('telescope.themes').get_dropdown() },
         },

@@ -20,10 +20,37 @@ return {
       { '<leader>dt', function() require('dap-go').debug_test() end, desc = 'Debug: Nearest Go Test' },
       { '<leader>p', function()
           local dap = require('dap')
-          local configs = require('dap.ext.vscode').getconfigs(vim.fn.getcwd() .. '/.vscode/launch.json')
-          vim.ui.select(configs, { prompt = 'Run:', format_item = function(c) return c.name end },
-            function(c) if c then dap.run(c) end end)
-        end, desc = 'Debug: Run launch.json config' },
+          local items = {}
+
+          local ok, configs = pcall(require('dap.ext.vscode').getconfigs, vim.fn.getcwd() .. '/.vscode/launch.json')
+          if ok then
+            for _, c in ipairs(configs) do
+              table.insert(items, { kind = 'debug', label = '  ' .. c.name, config = c })
+            end
+          end
+
+          if vim.fn.filereadable('Taskfile.yml') == 1 and vim.fn.executable('task') == 1 then
+            local out = vim.fn.systemlist({ 'task', '--list-all', '--json' })
+            local ok2, parsed = pcall(vim.json.decode, table.concat(out, '\n'))
+            if ok2 and parsed and parsed.tasks then
+              for _, t in ipairs(parsed.tasks) do
+                table.insert(items, { kind = 'task', label = '  ' .. t.name, name = t.name, desc = t.desc })
+              end
+            end
+          end
+
+          vim.ui.select(items, {
+            prompt = 'Run:',
+            format_item = function(i) return i.label .. (i.desc and i.desc ~= '' and '  — ' .. i.desc or '') end,
+          }, function(i)
+            if not i then return end
+            if i.kind == 'debug' then
+              dap.run(i.config)
+            else
+              vim.cmd('split | terminal task ' .. i.name)
+            end
+          end)
+        end, desc = 'Run: debug config or task' },
     },
     config = function()
       local dap = require 'dap'

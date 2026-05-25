@@ -8,6 +8,12 @@ vim.o.spelllang = 'en_gb'
 vim.o.spell = true
 vim.keymap.set('n', '<leader>ts', ':set spell!<CR>', { silent = true, desc = '[T]oggle [S]pell' })
 
+-- Colour column at 100
+vim.o.colorcolumn = '100'
+vim.keymap.set('n', '<leader>t|', function()
+  vim.o.colorcolumn = vim.o.colorcolumn == '' and '100' or ''
+end, { silent = true, desc = '[T]oggle colour column' })
+
 -- Folding
 vim.opt.foldenable = false -- don't fold everything by default
 -- use treesitter for folding

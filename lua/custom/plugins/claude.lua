@@ -5,6 +5,9 @@ return {
     dependencies = { 'folke/snacks.nvim' },
     opts = {
       terminal_cmd = 'claude --dangerously-skip-permissions',
+      terminal = {
+        split_width_percentage = 0.35,
+      },
     },
     keys = {
       { '<leader>a', nil, desc = 'AI/Claude Code' },

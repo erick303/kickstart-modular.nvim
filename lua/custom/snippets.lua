@@ -5,7 +5,7 @@ local f = ls.function_node
 
 -- Function to get current date
 local function get_date()
-  return { os.date("%Y-%m-%d") }
+  return { os.date("%a %d %b %Y") }
 end
 
 -- Add snippets for all file types

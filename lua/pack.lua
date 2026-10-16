@@ -50,6 +50,19 @@ vim.api.nvim_create_autocmd('PackChanged', {
       return
     end
 
+    -- Custom plugins (lua/custom/plugins). Their hooks live here, not next to
+    -- their vim.pack.add, because a lockfile install fires every PackChanged
+    -- event on the first vim.pack.add call, before custom files have run.
+    if name == 'lua-json5' then
+      run_build(name, { './install.sh' }, ev.data.path)
+      return
+    end
+
+    if name == 'markdown-preview.nvim' then
+      run_build(name, { 'yarn', 'install' }, ev.data.path .. '/app')
+      return
+    end
+
     if name == 'nvim-treesitter' then
       if not ev.data.active then vim.cmd.packadd 'nvim-treesitter' end
       vim.cmd 'TSUpdate'

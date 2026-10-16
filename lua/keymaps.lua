@@ -13,15 +13,33 @@ vim.diagnostic.config {
   float = { border = 'rounded', source = 'if_many' },
   underline = { severity = { min = vim.diagnostic.severity.WARN } },
 
-  -- Can switch between these as you prefer
-  virtual_text = true, -- Text shows up at the end of the line
-  virtual_lines = false, -- Text shows up underneath the line, with virtual lines
+  -- Nothing inline by default: signs in the gutter tell you a line has a
+  -- problem, and the full message renders under the cursor line only.
+  virtual_text = false,
+  virtual_lines = { current_line = true },
 
   -- Auto open the float, so you can easily read the errors when jumping with `[d` and `]d`
   jump = { float = true },
 }
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+-- Toggle diagnostics off entirely when you just want to read code.
+vim.keymap.set('n', '<leader>td', function()
+  vim.diagnostic.enable(not vim.diagnostic.is_enabled { bufnr = 0 }, { bufnr = 0 })
+end, { desc = '[T]oggle [D]iagnostics (buffer)' })
+
+-- Cycle inline style: cursor-line only -> all lines inline -> none.
+local vt_styles = {
+  { virtual_lines = { current_line = true }, virtual_text = false },
+  { virtual_lines = false, virtual_text = { severity = { min = vim.diagnostic.severity.WARN } } },
+  { virtual_lines = false, virtual_text = false },
+}
+local vt_idx = 1
+vim.keymap.set('n', '<leader>tv', function()
+  vt_idx = vt_idx % #vt_styles + 1
+  vim.diagnostic.config(vt_styles[vt_idx])
+end, { desc = '[T]oggle diagnostic [V]irtual style' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which

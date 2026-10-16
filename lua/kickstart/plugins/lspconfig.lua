@@ -124,7 +124,24 @@ return {
       local servers = {
         -- clangd = {},
         gopls = {},
-        basedpyright = {},
+        basedpyright = {
+          settings = {
+            basedpyright = {
+              analysis = {
+                -- basedpyright defaults to `recommended`, which is stricter than
+                -- pyright's `strict`. On untyped legacy code that is pure noise.
+                typeCheckingMode = 'standard',
+                diagnosticSeverityOverrides = {
+                  -- This repo has no local venv (it builds in Docker), so third
+                  -- party imports cannot resolve. Drop the venv note below once
+                  -- a local env exists and delete these two lines.
+                  reportMissingImports = 'none',
+                  reportMissingModuleSource = 'none',
+                },
+              },
+            },
+          },
+        },
         -- rust_analyzer = {},
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:

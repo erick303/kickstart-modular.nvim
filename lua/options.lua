@@ -1,5 +1,17 @@
+-- Enable faster startup by caching compiled Lua modules
+vim.loader.enable()
+
+-- Set <space> as the leader key
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
+
+-- Set to true if you have a Nerd Font installed and selected in the terminal
+vim.g.have_nerd_font = true
+
 -- [[ Setting options ]]
--- See `:help vim.o`
+--  See `:help vim.o`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 --
@@ -10,9 +22,12 @@ vim.keymap.set('n', '<leader>ts', ':set spell!<CR>', { silent = true, desc = '[T
 
 -- Colour column at 100
 vim.o.colorcolumn = '100'
-vim.keymap.set('n', '<leader>t|', function()
-  vim.o.colorcolumn = vim.o.colorcolumn == '' and '100' or ''
-end, { silent = true, desc = '[T]oggle colour column' })
+vim.keymap.set(
+  'n',
+  '<leader>t|',
+  function() vim.o.colorcolumn = vim.o.colorcolumn == '' and '100' or '' end,
+  { silent = true, desc = '[T]oggle colour column' }
+)
 
 -- Folding
 vim.opt.foldenable = false -- don't fold everything by default

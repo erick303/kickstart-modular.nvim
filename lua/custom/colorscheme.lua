@@ -7,22 +7,16 @@ local state_file = vim.fn.stdpath 'state' .. '/colorscheme.txt'
 
 local function read()
   local f = io.open(state_file, 'r')
-  if not f then
-    return nil
-  end
+  if not f then return nil end
   local name = f:read '*l'
   f:close()
-  if not name or name == '' then
-    return nil
-  end
+  if not name or name == '' then return nil end
   return name
 end
 
 local function write(name)
   local f = io.open(state_file, 'w')
-  if not f then
-    return
-  end
+  if not f then return end
   f:write(name)
   f:close()
 end
@@ -32,9 +26,7 @@ function M.setup(default)
   vim.api.nvim_create_autocmd('ColorScheme', {
     group = vim.api.nvim_create_augroup('PersistColorscheme', { clear = true }),
     callback = function(args)
-      if args.match and args.match ~= '' then
-        write(args.match)
-      end
+      if args.match and args.match ~= '' then write(args.match) end
     end,
   })
 
